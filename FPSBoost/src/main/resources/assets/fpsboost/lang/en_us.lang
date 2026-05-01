@@ -1,0 +1,54 @@
+# FPSBoost Language File
+
+fpsboost.config.title=FPS Boost Configuration
+
+# Categories
+fpsboost.config.category.general=General
+fpsboost.config.category.chunk=Chunk Optimisation
+fpsboost.config.category.memory=Memory & GC
+fpsboost.config.category.render=Render Optimisation
+fpsboost.config.category.advanced=Advanced / HUD
+
+# General
+fpsboost.config.enableMod=Enable Mod
+fpsboost.config.enableMod.tooltip=Master on/off switch for all FPSBoost optimisations.
+fpsboost.config.activeProfile=Active Profile
+fpsboost.config.activeProfile.tooltip=Performance profile. Options: Max FPS | Balanced | Quality
+fpsboost.config.debugMode=Debug Mode
+fpsboost.config.debugMode.tooltip=Enable verbose debug logging.
+
+# Chunk
+fpsboost.config.maxRenderDistance=Max Render Distance
+fpsboost.config.minRenderDistance=Min Render Distance
+fpsboost.config.dynamicChunkReduce=Dynamic Chunk Reduction
+fpsboost.config.fpsThresholdChunk=FPS Threshold (Chunks)
+fpsboost.config.asyncChunkLoading=Async Chunk Loading
+fpsboost.config.smartChunkCulling=Smart Chunk Culling
+
+# Memory
+fpsboost.config.gcOptimization=GC Optimisation
+fpsboost.config.gcIntervalSeconds=GC Interval (seconds)
+fpsboost.config.textureCompression=Texture Compression
+fpsboost.config.entityCulling=Entity Culling
+fpsboost.config.entityCullDistance=Entity Cull Distance
+fpsboost.config.particleLimiter=Particle Limiter
+fpsboost.config.particleMaxCount=Max Particles
+fpsboost.config.fpsThresholdParticle=FPS Threshold (Particles)
+fpsboost.config.leakDetection=Memory Leak Detection
+
+# Render
+fpsboost.config.fastMath=Fast Math
+fpsboost.config.vSyncToggle=Disable VSync
+fpsboost.config.adaptiveFrameLimiter=Adaptive Frame Limiter
+fpsboost.config.targetFPS=Target FPS
+fpsboost.config.reduceTicks=Reduce Distant Ticks
+fpsboost.config.tickReduceDistance=Tick Reduction Distance
+fpsboost.config.optimizedLighting=Optimised Lighting
+fpsboost.config.fastBlockRender=Fast Block Render
+fpsboost.config.frustumCulling=Frustum Culling
+
+# Advanced
+fpsboost.config.minimalHUD=Minimal HUD
+fpsboost.config.showFPSCounter=Show FPS Counter
+fpsboost.config.showPerfOverlay=Show Performance Overlay
+fpsboost.config.hotReloadConfig=Hot-Reload Config
