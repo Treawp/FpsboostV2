@@ -1,131 +1,32 @@
-name: Build & Release
+name: Build FPSBoost Mod
 
 on:
   push:
-    branches: [ main, develop ]
-    tags:
-      - 'v*'
+    branches: [ master, main ]
   pull_request:
-    branches: [ main ]
+    branches: [ master, main ]
 
 jobs:
   build:
-    name: Build Mod JAR
     runs-on: ubuntu-latest
-
+    
     steps:
-      # ── Checkout ────────────────────────────────────────────────────
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      # ── Java ────────────────────────────────────────────────────────
-      - name: Set up JDK 8
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '8'
-          cache: 'gradle'
-
-      # ── Gradle cache ────────────────────────────────────────────────
-      - name: Cache Gradle and ForgeGradle files
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-            .gradle
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', 'gradle.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      # ── Permissions ─────────────────────────────────────────────────
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
-
-      # ── Setup Forge workspace ───────────────────────────────────────
-      - name: Setup ForgeGradle workspace
-        run: ./gradlew setupDecompWorkspace --no-daemon
-        env:
-          GRADLE_OPTS: "-Xmx3g -Xms512m"
-
-      # ── Build ───────────────────────────────────────────────────────
-      - name: Build JAR
-        run: ./gradlew build --no-daemon
-        env:
-          GRADLE_OPTS: "-Xmx3g -Xms512m"
-
-      # ── Upload build artifacts ──────────────────────────────────────
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: FPSBoost-${{ github.sha }}
-          path: build/libs/*.jar
-          retention-days: 30
-
-  # ── Release job (only on version tags) ─────────────────────────────
-  release:
-    name: Create GitHub Release
-    needs: build
-    runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
-
-    permissions:
-      contents: write
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up JDK 8
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '8'
-          cache: 'gradle'
-
-      - name: Cache Gradle
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', 'gradle.properties') }}
-
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
-
-      - name: Setup ForgeGradle workspace
-        run: ./gradlew setupDecompWorkspace --no-daemon
-        env:
-          GRADLE_OPTS: "-Xmx3g -Xms512m"
-
-      - name: Build for release
-        run: ./gradlew build --no-daemon
-        env:
-          GRADLE_OPTS: "-Xmx3g -Xms512m"
-
-      - name: Extract version from tag
-        id: version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: FPSBoost v${{ steps.version.outputs.VERSION }}
-          body: |
-            ## FPSBoost v${{ steps.version.outputs.VERSION }}
-
-            ### Installation
-            1. Install [Minecraft Forge 1.12.2-14.23.5.2860](https://files.minecraftforge.net/net/minecraftforge/forge/index_1.12.2.html)
-            2. Drop `FPSBoost-${{ steps.version.outputs.VERSION }}.jar` into your `mods/` folder
-            3. Launch the game
-
-            ### Changelog
-            See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for full details.
-          files: |
-            build/libs/FPSBoost-*.jar
-          draft: false
-          prerelease: ${{ contains(github.ref_name, '-beta') || contains(github.ref_name, '-alpha') }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v4
+    
+    - name: Set up JDK 8
+      uses: actions/setup-java@v4
+      with:
+        java-version: '8'
+        distribution: 'temurin'
+    
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v3
+    
+    - name: Build with Gradle
+      run: ./gradlew build
+    
+    - name: Upload JAR artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: FPSBoost-Mod
+        path: build/libs/*.jar
